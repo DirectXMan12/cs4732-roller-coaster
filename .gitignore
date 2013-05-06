@@ -1,3 +1,9 @@
 packages/
 pubspec.lock
+*~
+*.swp
+*.js
+*.js.deps
+*.js.map
+web/packages
 

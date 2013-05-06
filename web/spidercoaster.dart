@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:three/three.dart';
 import 'package:three/extras/core/curve_utils.dart' as CurveUtils;
 import 'package:three/extras/controls/firstpersoncontrols.dart';
+import 'dart:json';
 part 'CartController.dart';
 part 'RollerCoaster.dart';
 part 'CoasterSpline.dart';
@@ -13,6 +14,7 @@ part 'CoasterRider.dart';
 part 'CoasterEditor.dart';
 part 'SparkParticle.dart';
 part 'SparkParticleHandler.dart';
+part 'TrackLoader.dart';
 
 abstract class GameState {
   void update(num delta);
@@ -55,11 +57,25 @@ class SpiderCoaster
 
   void run()
   {
-    spline.addPoint(new Vector3(0,0,0), rotation: Math.PI);
+    /*spline.addPoint(new Vector3(0,0,0), rotation: Math.PI);
     spline.addPoint(new Vector3(0,0,300));
     spline.addPoint(new Vector3(150,50,300));
     spline.addPoint(new Vector3(300,100,300));
-    spline.addPoint(new Vector3(300,100,0));
+    spline.addPoint(new Vector3(300,100,0));*/
+
+    var coasterDef = {
+      'trackParts': [
+        {'name': 'str8', 'trackType': 'plain', 'points': [[0,0,0,0], [100,0,0,0], [200,0,0]]},
+        {'name': 'curve', 'trackType': 'plain', 'points': [[0,0,0], [100,200,300,Math.PI]]}
+      ],
+      'trackElements': ['str8', 'curve']
+    };
+
+    TrackLoader ldr = new TrackLoader(coasterDef);
+    
+    print("ldr is ${ldr.points}");
+    
+    spline = ldr.spline;
     
     coasterGeometry = new RollerCoaster( spline );
     

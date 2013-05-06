@@ -7,8 +7,32 @@ class CoasterSplineItem {
   CoasterSplineItem(this.position, this.rotation);
   
   num get x            => position.x;
+      set x (num nx)   => position.x = nx;
   num get y            => position.y;
+      set y (num ny)   => position.y = ny;
   num get z            => position.z;
+      set z (num nz)   => position.z = nz;
+
+  CoasterSplineItem operator +(CoasterSplineItem ni)
+  {
+    return new CoasterSplineItem((new Vector3(0,0,0)).add(this.position, ni.position), this.rotation + ni.rotation);
+  }
+  
+  String toString()
+  {
+    return "($x,$y,$z,$rotation*)";
+  }
+  
+  CoasterSplineItem offsetPosBy(Vector3 vec)
+  {
+    return new CoasterSplineItem((new Vector3(0,0,0)).add(this.position, vec), this.rotation);
+  }
+  
+  CoasterSplineItem rotate(Quaternion quat)
+  {
+    return new CoasterSplineItem(quat.multiplyVector3(this.position, new Vector3(0,0,0)), this.rotation+(Math.acos(quat.w)*2));
+  }
+  
 }
 
 class CoasterSpline extends Curve3D 
