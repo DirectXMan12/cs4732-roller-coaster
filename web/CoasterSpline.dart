@@ -30,7 +30,7 @@ class CoasterSplineItem {
   
   CoasterSplineItem rotate(Quaternion quat)
   {
-    return new CoasterSplineItem(quat.multiplyVector3(this.position, new Vector3(0,0,0)), this.rotation+(Math.acos(quat.w)*2));
+    return new CoasterSplineItem(quat.multiplyVector3(this.position, dest: new Vector3(0,0,0)), this.rotation+(Math.acos(quat.w)*2));
   }
   
 }

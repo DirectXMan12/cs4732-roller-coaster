@@ -5,11 +5,19 @@ class RollerCoaster extends Geometry {
   int segmentsRadius = 8;
   num delta = 0.01;
   num radius = 2.0;
-  CoasterSpline curve;
+  List<CoasterSpline> curveParts;
   
-  RollerCoaster( this.curve ) : super() {
+  RollerCoaster(CoasterSpline curve ) : super() {
+    curveParts = new List<CoasterSpline>();
+    curveParts.add(curve);
     isDynamic = true;
-    updateGeomtry();    
+    updateGeomtry();
+
+  }
+  
+  RollerCoaster.big(this.curveParts) : super() {
+    isDynamic = true;
+    updateGeomtry();
   }
   
   void updateGeomtry()
@@ -33,22 +41,25 @@ class RollerCoaster extends Geometry {
     int firstRing = null;
     int lastRing = null;
     
-    for(num t = 0; t <= 1.0; t += delta ){
-      Vector3 position = curve.getPoint(t);
-      Quaternion quaternion = curve.getQuaternion2(t);
-      
-      Vector3 ringOffset = quaternion.multiplyVector3( offset.clone() ).multiplyScalar(5);
-      
-      int newRing = addRing( position.clone().addSelf(ringOffset), quaternion ); //.clone().addSelf(ringOffset)
-      
-      if( firstRing == null )
-        firstRing = newRing;
-      
-      if( lastRing != null ){
-        createCylinderFaces( lastRing, newRing );
+    for (CoasterSpline curve in curveParts)
+    {
+      for(num t = 0; t <= 1.0; t += delta ){
+        Vector3 position = curve.getPoint(t);
+        Quaternion quaternion = curve.getQuaternion2(t);
+        
+        Vector3 ringOffset = quaternion.multiplyVector3( offset.clone() ).multiplyScalar(5);
+        
+        int newRing = addRing( position.clone().addSelf(ringOffset), quaternion ); //.clone().addSelf(ringOffset)
+        
+        if( firstRing == null )
+          firstRing = newRing;
+        
+        if( lastRing != null ){
+          createCylinderFaces( lastRing, newRing );
+        }
+        
+        lastRing = newRing;
       }
-      
-      lastRing = newRing;
     }
     
     createCylinderFaces( lastRing, firstRing );

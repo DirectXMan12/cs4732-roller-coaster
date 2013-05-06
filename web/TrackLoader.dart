@@ -51,37 +51,44 @@ class TrackLoader {
   {
     List<CoasterSplineItem> pts = new List<CoasterSplineItem>();
     //CoasterSplineItem currPt = new CoasterSplineItem(new Vector3(50,50,50), 0);
-    Quaternion currPos = new Vector3(50,50,50);
+    Vector3 currPos = new Vector3(50,50,50);
     Quaternion currOrient = new Quaternion();
-    currOrient.setFromAxisAngle(CoasterSpline.up, Math.PI / 2); // facing forward
+    currOrient.setFromAxisAngle(new Vector3(0,1,0), Math.PI / 2); // facing forward
     
     // TODO: handle more than 5 points/parts not in 5 pt quantities
     
-    
-    
     for (String secName in sections)
     {
-    
       CoasterSpline partSpline = new CoasterSpline();
       CoasterSplineItem lastPt = null;
       
       for (CoasterSplineItem pt in partDefinitions[secName].points)
       {
-        lastPt = pt.rotate(currOrient).offsetPosBy(currPt);
+        lastPt = pt.rotate(currOrient).offsetPosBy(currPos);
         partSpline.points.add(lastPt);
       }
       //currPt += partDefinitions[secName].points.last;
-      currPt = lastPt;
+      currPos = lastPt.position; 
       currOrient = partSpline.getQuaternion(1.0);
     }
     return pts;
   }
 
-  CoasterSpline get spline
+  List<CoasterSpline> get splines
   {
-    CoasterSpline spl = new CoasterSpline();
-    spl.points = this.points;
-    return spl;
+    List<CoasterSpline> spls = new List<CoasterSpline>();
+    List<CoasterSplineItem> totalpts = this.points;
+    CoasterSpline currSpline = new CoasterSpline();
+    for (var i = 0; i < totalpts.length; i++)
+    {
+      currSpline.points.add(totalpts[i]);
+      if (currSpline.points.length >= 4)
+      {
+        spls.add(currSpline);
+        currSpline = new CoasterSpline();
+      }
+    }
+    return spls;
   }
 }
 

@@ -65,19 +65,19 @@ class SpiderCoaster
 
     var coasterDef = {
       'trackParts': [
-        {'name': 'str8', 'trackType': 'plain', 'points': [[0,0,0,0], [100,0,0,0], [200,0,0]]},
-        {'name': 'curve', 'trackType': 'plain', 'points': [[0,0,0], [100,200,300,Math.PI]]}
+        {'name': 'str8', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [2,0,0,0], [3,0,0,0]]},
+        {'name': 'rightturn', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [1.5,0,0.5,Math.PI/4], [2,0,1,0]]}
       ],
-      'trackElements': ['str8', 'curve']
+      'trackElements': ['str8', 'rightturn','rightturn','st8','rightturn','rightturn']
     };
 
     TrackLoader ldr = new TrackLoader(coasterDef);
     
-    print("ldr is ${ldr.points}");
+    //print("ldr is ${ldr.points}");
     
-    spline = ldr.spline;
+    //spline = ldr.spline;
     
-    coasterGeometry = new RollerCoaster( spline );
+    coasterGeometry = new RollerCoaster.big( ldr.splines );
     
     init();
     window.requestAnimationFrame(animate);
