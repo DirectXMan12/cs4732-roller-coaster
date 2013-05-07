@@ -57,18 +57,23 @@ class SpiderCoaster
 
   void run()
   {
-    /*spline.addPoint(new Vector3(0,0,0), rotation: Math.PI);
+    // just added here b/c I have yet to deal with multi-spline tracks in the
+    // actual rider part
+    spline.addPoint(new Vector3(0,0,0), rotation: Math.PI);
     spline.addPoint(new Vector3(0,0,300));
     spline.addPoint(new Vector3(150,50,300));
     spline.addPoint(new Vector3(300,100,300));
-    spline.addPoint(new Vector3(300,100,0));*/
+    spline.addPoint(new Vector3(300,100,0));
 
     var coasterDef = {
       'trackParts': [
-        {'name': 'str8', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [2,0,0,0], [3,0,0,0], [4,0,0,0]]},
-        {'name': 'rightturn', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [1.25,0,0.25,Math.PI/4],[1.75, 0, 0.75, Math.PI/4],[2,0,1,0]]}
+        {'name': 'str8', 'trackType': 'plain', 'points': [[0,0,0,0], [100,0,0,0], [200,0,0,0], [300,0,0,0], [400,0,0,0]]},
+        {'name': 'tw1', 'trackType': 'plain', 'points': [[0,0,0,0], [100,0,0,Math.PI/4], [200,0,0,Math.PI/4], [300,0,0,0], [400,0,100,0]]},
+        {'name': 'tr1', 'trackType': 'plain', 'points': [[0,0,0,Math.PI],[0,0,300,0], [150,50,300,0], [300,100,300,0],[300,100,0]]},
+        {'name': 'rightturn', 'trackType': 'plain', 'points': [[0,0,0,0], [100,0,0,0], [125,0,0.25,Math.PI/4],[175, 0, 75, 0],[200,0,100,-Math.PI/4]]}
       ],
-      'trackElements': ['str8', 'rightturn','rightturn','str8','rightturn','rightturn']
+      //'trackElements': ['str8', 'rightturn','rightturn','str8','rightturn','rightturn']
+      'trackElements': ['tr1']
     };
 
     TrackLoader ldr = new TrackLoader(coasterDef);
@@ -77,6 +82,8 @@ class SpiderCoaster
     
     //spline = ldr.spline;
     
+    print("ldr points are ${ldr.points}, ldr splines are ${ldr.splines}");
+
     coasterGeometry = new RollerCoaster.big( ldr.splines );
     
     init();

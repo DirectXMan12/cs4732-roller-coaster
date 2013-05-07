@@ -59,9 +59,9 @@ class TrackLoader {
   {
     List<CoasterSplineItem> pts = new List<CoasterSplineItem>();
     //CoasterSplineItem currPt = new CoasterSplineItem(new Vector3(50,50,50), 0);
-    Vector3 currPos = new Vector3(50,50,50);
+    Vector3 currPos = new Vector3(0,0,0);
     Quaternion currOrient = new Quaternion();
-    currOrient.setFromAxisAngle(new Vector3(0,1,0), Math.PI / 2); // facing forward
+    currOrient.setFromAxisAngle(new Vector3(1,0,0), 0); // facing forward
     
     // TODO: handle more than 5 points/parts not in 5 pt quantities
     
@@ -74,6 +74,7 @@ class TrackLoader {
       {
         lastPt = pt.rotate(currOrient).offsetPosBy(currPos);
         partSpline.points.add(lastPt);
+        pts.add(lastPt);
       }
       //currPt += partDefinitions[secName].points.last;
       currPos = lastPt.position; 
