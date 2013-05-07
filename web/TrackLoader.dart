@@ -29,6 +29,14 @@ class TrackLoader {
     }
 
     sections = _sourceJson['trackElements'];
+
+    for (String elem in sections)
+    {
+      if (!partDefinitions.containsKey(elem))
+      {
+        throw "No part named $elem defined in the part type list!";
+      }
+    }
   }
 
   static CoasterSplineItem parsePoint(pt)
@@ -82,7 +90,7 @@ class TrackLoader {
     for (var i = 0; i < totalpts.length; i++)
     {
       currSpline.points.add(totalpts[i]);
-      if (currSpline.points.length >= 4)
+      if (currSpline.points.length > 4)
       {
         spls.add(currSpline);
         currSpline = new CoasterSpline();

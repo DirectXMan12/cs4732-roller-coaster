@@ -65,10 +65,10 @@ class SpiderCoaster
 
     var coasterDef = {
       'trackParts': [
-        {'name': 'str8', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [2,0,0,0], [3,0,0,0]]},
-        {'name': 'rightturn', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [1.5,0,0.5,Math.PI/4], [2,0,1,0]]}
+        {'name': 'str8', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [2,0,0,0], [3,0,0,0], [4,0,0,0]]},
+        {'name': 'rightturn', 'trackType': 'plain', 'points': [[0,0,0,0], [1,0,0,0], [1.25,0,0.25,Math.PI/4],[1.75, 0, 0.75, Math.PI/4],[2,0,1,0]]}
       ],
-      'trackElements': ['str8', 'rightturn','rightturn','st8','rightturn','rightturn']
+      'trackElements': ['str8', 'rightturn','rightturn','str8','rightturn','rightturn']
     };
 
     TrackLoader ldr = new TrackLoader(coasterDef);
